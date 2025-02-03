@@ -1,124 +1,76 @@
 
 # **Documentation du Projet SNL (Structured Natural Language)**  
-*Version 1.0*  
+*Version 1.1*  
 
 ---
 
 ## **1. Introduction**  
 ### **1.1 Objectif du Projet**  
-Créer un langage structuré (**SNL**) permettant de décrire des algorithmes de manière claire et intuitive, puis de les convertir automatiquement :  
-1. **Validation du SNL** : Vérification de la syntaxe et de la logique.  
+Créer un langage structuré (**SNL**) permettant de décrire des algorithmes de manière claire et intuitive, puis de les convertir automatiquement en code exécutable via un processus en quatre étapes :  
+1. **Validation du SNL** : Vérification de la syntaxe, de la logique, de la propreté et de la clarté.  
 2. **Conversion SNL → NLP** : Transformation en description naturelle via un LLM.  
 3. **Génération de code** : Création de code exécutable (Python, JavaScript, etc.) à partir du NLP.  
+4. **Vérification de cohérence** : Assurer que le code généré correspond bien au SNL d'origine.  
 
 **Avantages** :  
-- Réduction des erreurs de logique.  
-- Accessibilité pour les non-experts en programmation.  
-- Génération de code propre et structuré.  
+- Réduction des erreurs de logique et de syntaxe.  
+- Code généré fiable et cohérent avec l'intention initiale.  
+- Processus automatisé et évolutif.  
 
 ---
 
 ## **2. Syntaxe et Grammaire du SNL**  
-### **2.1 Grammaire de Base (Classique)**  
-Le SNL suit une structure inspirée des langages procéduraux (ex : Pascal) avec des mots-clés explicites.  
-
-**Exemple de structure :**  
-```plaintext
-ALGORITHM <Nom_Algorithme>;  
-BEGIN  
-    INPUT (<variables> : <type>);  
-    OUTPUT (<variables> : <type>);  
-
-    DECLARE <variable> : <type> = <valeur>;  
-
-    LOOP UNTIL (<condition>)  
-        STEP <num>: <action>;  
-    ENDLOOP;  
-
-    RETURN <variable>;  
-END.  
-```
-
-**Règles syntaxiques :**  
-- **Mots-clés obligatoires** : `ALGORITHM`, `BEGIN`, `END.`  
-- **Blocs structurés** : `INPUT`, `OUTPUT`, `DECLARE`, `LOOP`, `IF/ELSE`.  
-- **Typage explicite** : `integer`, `string`, `boolean`, `float`, etc.  
+*(Voir section précédente pour la grammaire classique et POO.)*  
 
 ---
 
-### **2.2 Grammaire POO (Programmation Orientée Objet)**  
-Extension du SNL pour supporter les concepts orientés objet.  
+## **3. Validation du SNL**  
+### **3.1 Objectif de la Validation**  
+La validation vise à garantir que le SNL est :  
+1. **Syntaxiquement correct** : Respect des règles de grammaire et de vocabulaire.  
+2. **Logiquement cohérent** : Absence de contradictions ou d'erreurs de logique.  
+3. **Propre et clair** : Code bien structuré et facile à comprendre.  
 
-**Exemple de classe :**  
-```plaintext
-CLASS Animal  
-BEGIN  
-    DECLARE name : string;  
-    DECLARE age : integer;  
+### **3.2 Étapes de Validation**  
+1. **Vérification Syntaxique** :  
+   - Présence des mots-clés obligatoires (`ALGORITHM`, `BEGIN`, `END.`).  
+   - Typage correct des variables (`integer`, `string`, etc.).  
+   - Structure des boucles et conditions (`LOOP UNTIL`, `IF/ELSE`).  
 
-    CONSTRUCTOR (name : string, age : integer)  
-    BEGIN  
-        SELF.name = name;  
-        SELF.age = age;  
-    END;  
+   **Exemple d'erreur détectée :**  
+   ```plaintext
+   DECLARE x : integer = "hello";  // Erreur : Type mismatch.
+   ```
 
-    METHOD speak() : string  
-    BEGIN  
-        RETURN "Sound";  
-    END;  
-END.  
-```
+2. **Vérification Logique** :  
+   - **Boucles infinies** : Les conditions de sortie doivent être réalisables.  
+   - **Variables non initialisées** : Toutes les variables doivent avoir une valeur par défaut.  
+   - **Conflits de noms** : Pas de duplication de noms de variables ou de fonctions.  
 
-**Mots-clés POO :**  
-- `CLASS`, `METHOD`, `CONSTRUCTOR`, `INHERITS`, `SELF`.  
-- **Visibilité** : `PUBLIC`, `PRIVATE`, `PROTECTED` (optionnel).  
+   **Exemple d'erreur détectée :**  
+   ```plaintext
+   LOOP UNTIL (i > 10);  // Erreur : 'i' non initialisé.
+   ```
 
----
+3. **Vérification de Propreté et Clarté** :  
+   - **Indentation** : Le code doit être bien indenté pour une meilleure lisibilité.  
+   - **Noms significatifs** : Les variables et fonctions doivent avoir des noms descriptifs.  
+   - **Commentaires** : Ajout de commentaires pour expliquer les étapes complexes.  
 
-## **3. Vocabulaire SNL**  
-### **3.1 Vocabulaire Classique**  
-| Mot-clé       | Description                                  | Exemple                          |  
-|---------------|----------------------------------------------|----------------------------------|  
-| `ALGORITHM`   | Déclare le nom de l'algorithme.              | `ALGORITHM CalculMoyenne;`       |  
-| `INPUT`       | Définit les entrées de l'algorithme.         | `INPUT (notes : list<float>);`   |  
-| `DECLARE`     | Initialise une variable.                     | `DECLARE total : float = 0.0;`   |  
-| `LOOP UNTIL`  | Boucle tant qu'une condition est fausse.     | `LOOP UNTIL (i > 10);`           |  
-| `IF/ELSE`     | Structure conditionnelle.                    | `IF (age >= 18) THEN ...`        |  
-
-### **3.2 Vocabulaire POO**  
-| Mot-clé       | Description                                  | Exemple                          |  
-|---------------|----------------------------------------------|----------------------------------|  
-| `CLASS`       | Déclare une classe.                          | `CLASS Voiture;`                 |  
-| `METHOD`      | Définit une méthode.                         | `METHOD demarrer() : void;`      |  
-| `INHERITS`    | Gère l'héritage entre classes.               | `CLASS Chien INHERITS Animal;`   |  
-| `SELF`        | Référence l'instance courante.               | `SELF.marque = "Toyota";`        |  
+   **Exemple de bonnes pratiques :**  
+   ```plaintext
+   DECLARE totalSomme : float = 0.0;  // Bon : Nom descriptif.
+   ```
 
 ---
 
-## **4. Validation du SNL**  
-### **4.1 Vérifications Syntaxiques**  
-- **Structure** : Présence des mots-clés obligatoires (`ALGORITHM`, `BEGIN`, `END.`).  
-- **Typage** : Cohérence entre les types déclarés et utilisés.  
-- **Portée** : Les variables doivent être déclarées avant utilisation.  
-
-**Exemple d'erreur détectée :**  
-```plaintext
-DECLARE x : integer = "hello";  // Erreur : Type mismatch.
-```
-
-### **4.2 Vérifications Logiques**  
-- **Boucles infinies** : Conditions de sortie réalisables.  
-- **Variables non initialisées** : Toutes les variables doivent avoir une valeur par défaut.  
-
----
-
-## **5. Conversion SNL → NLP**  
-### **5.1 Rôle du LLM**  
-Un modèle de langage (ex: Google Gemini) analyse le SNL et génère une description en langage naturel.  
+## **4. Conversion SNL → NLP**  
+### **4.1 Rôle du LLM**  
+Le modèle de langage (ex: Google Gemini) analyse le SNL validé et génère une description en langage naturel (NLP).  
 
 **Prompt utilisé :**  
 ```plaintext
-"Convert this SNL code into a natural language description (NLP) explaining the algorithm step by step."
+"Convert this validated SNL code into a natural language description (NLP) explaining the algorithm step by step."
 ```
 
 **Exemple de sortie NLP :**  
@@ -130,8 +82,8 @@ in each iteration until 'i' exceeds N, then returns the final result.
 
 ---
 
-## **6. Génération de Code**  
-### **6.1 Création du Prompt Structuré**  
+## **5. Génération de Code**  
+### **5.1 Création du Prompt Structuré**  
 À partir du NLP, un prompt est généré pour guider le LLM :  
 
 **Exemple de prompt :**  
@@ -139,7 +91,7 @@ in each iteration until 'i' exceeds N, then returns the final result.
 [PROMPT]: "Write a Python function that calculates the factorial of a number `n` using a loop."
 ```
 
-### **6.2 Exemple de Code Généré**  
+### **5.2 Exemple de Code Généré**  
 **Python :**  
 ```python
 def factorial(n):
@@ -151,16 +103,22 @@ def factorial(n):
     return result
 ```
 
-**JavaScript :**  
-```javascript
-function factorial(n) {
-    let result = 1;
-    for (let i = 1; i <= n; i++) {
-        result *= i;
-    }
-    return result;
-}
-```
+---
+
+## **6. Vérification de Cohérence**  
+### **6.1 Objectif**  
+Assurer que le code généré correspond bien au SNL d'origine et au NLP intermédiaire.  
+
+### **6.2 Méthode**  
+1. **Comparaison des étapes** :  
+   - Vérifier que chaque étape du SNL est bien traduite dans le code généré.  
+   - Exemple : Si le SNL contient une boucle `LOOP UNTIL`, le code généré doit contenir une boucle équivalente (`while` ou `for`).  
+
+2. **Test unitaire** :  
+   - Exécuter le code généré avec des entrées simples pour vérifier qu'il produit les résultats attendus.  
+
+3. **Retour au LLM** :  
+   - Si une incohérence est détectée, le LLM est invité à réviser le code généré en se basant sur le NLP.  
 
 ---
 
@@ -169,18 +127,19 @@ function factorial(n) {
 SNL (Structured) 
     → [Validation] → SNL Valide 
     → [LLM] → NLP (Description Naturelle) 
-    → [LLM] → Code Exécutable (Python, JS, etc.)
+    → [LLM] → Code Exécutable (Python, JS, etc.) 
+    → [Vérification de Cohérence] → Code Fiable
 ```
 
 ---
 
 ## **8. Prochaines Étapes**  
 - **Support multi-langages** : Ajouter C++, Java, etc.  
-- **Gestion d'erreurs avancée** : Détection de conflits de variables, optimisations de code.  
-- **Interface graphique** : Éditeur SNL avec coloration syntaxique.  
+- **Optimisation des prompts** : Améliorer la précision des descriptions NLP et du code généré.  
+- **Interface graphique** : Éditeur SNL avec coloration syntaxique et validation en temps réel.  
 
 ---
 
 ## **9. Conclusion**  
-Le SNL offre une alternative structurée pour décrire des algorithmes, facilitant la génération de code fiable et compréhensible. En combinant validation syntaxique, NLP et LLM, il réduit les erreurs et accélère le développement.  
+Le SNL, combiné à une validation rigoureuse et à l'utilisation de LLM, offre une solution puissante pour générer du code fiable et cohérent. Ce processus garantit que chaque étape, de la description algorithmique à la génération de code, est claire, logique et exempte d'erreurs.  
 

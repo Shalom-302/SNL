@@ -1,0 +1,57 @@
+------ Factorielle ------
+ALGORITHM Factorielle;
+    BEGIN
+        INPUT (N : integer);
+        OUTPUT (fact : integer);
+        
+        DECLARE fact : integer = 1;
+        DECLARE i : integer = 1;
+        
+        LOOP UNTIL (i > N)
+            STEP 1: fact = fact * i;
+            STEP 2: i = i + 1;
+        ENDLOOP;
+        
+        RETURN fact;
+    END.
+------ --------
+
+ALGORITHM Nombre_Premier;
+    BEGIN
+        INPUT (N : integer);
+        OUTPUT (est_premier : boolean);
+        
+        IF (N <= 1) THEN
+            SET est_premier = FALSE;
+        ELSE
+            DECLARE i : integer = 2;
+            SET est_premier = TRUE;
+            
+            LOOP UNTIL (i * i > N)
+                IF (N MOD i == 0) THEN
+                    SET est_premier = FALSE;
+                    BREAK;
+                ENDIF;
+                STEP 1: i = i + 1;
+            ENDLOOP;
+        ENDIF;
+        
+        RETURN est_premier;
+    END.
+--------------- --------------
+
+ALGORITHM Inverser_chaine;
+    BEGIN
+        INPUT (texte : string);
+        OUTPUT (inversé : string);
+        
+        DECLARE i : integer = longueur(texte) - 1;
+        DECLARE inversé : string = "";
+        
+        LOOP UNTIL (i < 0)
+            STEP 1: inversé = inversé + texte[i];
+            STEP 2: i = i - 1;
+        ENDLOOP;
+        
+        RETURN inversé;
+    END.

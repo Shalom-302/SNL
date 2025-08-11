@@ -1,0 +1,25 @@
+create project "EssaiProjet" with language snl {
+
+    print("Début du fichier d'essai.");
+
+    // Déclaration de variables simples
+    var message : string = "Ceci est un test.";
+    var compteur : integer = 0;
+
+    print(message);
+
+    // Structure de contrôle 
+    if (compteur == 0) then {
+        print("Le compteur est à zéro.");
+        compteur = compteur + 1;
+    } else {
+        print("Le compteur n'est pas à zéro.");
+    }
+
+    // Utilisation d'une liste
+    var maListe : list = [10, 20, 30];
+    print("La liste a été créée.");
+
+    print("Fin du fichier d'essai.");
+}
+

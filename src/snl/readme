@@ -1,0 +1,69 @@
+
+# SNL (Structured Natural Language) Compiler
+
+Ce dépôt contient le code source d'un compilateur pour le langage SNL, un langage structuré inspiré par le langage naturel et des constructions de type Java. Ce projet utilise ANTLR4 pour le parsing et Java/Maven pour la construction et l'exécution.
+
+## À propos du langage SNL
+
+SNL est un langage d'intention conçu pour être déclaratif et facile à lire. Il permet de définir des structures de haut niveau comme des projets, des entités de données, des classes et des fonctions.
+
+**Fonctionnalités actuelles :**
+- Définition de projets avec un langage cible.
+- Déclaration de classes avec héritage.
+- Déclaration d'entités de données (similaires à des structs).
+- Déclaration de fonctions et de variables typées.
+- Expressions arithmétiques et logiques de base.
+- Structures de contrôle (`if`, `while`, `for`).
+
+## Prérequis
+
+Pour construire et exécuter ce projet, vous aurez besoin de :
+1.  **JDK (Java Development Kit)** : Version 11 ou supérieure.
+2.  **Apache Maven** : Pour gérer les dépendances et la construction du projet.
+3.  **ANTLR4 Tool** : La commande `antlr4` doit être accessible depuis votre terminal pour générer le parser.
+
+## Comment construire et exécuter le projet
+
+Ce projet est fourni avec un script shell (`snl.sh`) qui automatise entièrement la configuration.
+
+### 1. Configuration initiale (une seule fois)
+
+Clonez ce dépôt, puis exécutez le script de configuration. Il va nettoyer le projet, générer le parser ANTLR, et créer les fichiers sources nécessaires.
+
+```bash
+# Rendez le script exécutable
+chmod +x snl.sh
+
+# Exécutez le script
+./snl.sh
+```
+
+### 2. Compilation du projet
+
+Utilisez Maven pour compiler le projet. La première fois, cela téléchargera les dépendances nécessaires (comme `antlr4-runtime`).
+
+```bash
+mvn clean install
+```
+Cette commande va compiler tout le code source et créer un fichier `.jar` dans le dossier `target/`.
+
+### 3. Exécution du compilateur
+
+Pour analyser un fichier source SNL, utilisez la commande `exec:java` de Maven. Un fichier d'exemple `test.snl` est fourni.
+
+```bash
+mvn exec:java
+```
+
+Cette commande exécutera la classe `Compiler` principale en lui passant `test.snl` comme argument.
+
+### Structure du projet
+
+-   `grammar/snl.g4` : Le fichier de grammaire ANTLR4 qui définit la syntaxe du langage SNL.
+-   `src/main/java/com/your_project/` : Le code source Java du compilateur.
+    -   `Compiler.java` : Le point d'entrée du programme qui orchestre le lexer, le parser et le visiteur.
+    -   `AstVerifierVisitor.java` : Le visiteur qui parcourt l'arbre syntaxique pour effectuer l'analyse.
+    -   Les fichiers générés par ANTLR (`snlLexer.java`, `snlParser.java`, etc.) se trouvent également ici.
+-   `pom.xml` : Le fichier de configuration de Maven.
+-   `test.snl` : Un fichier d'exemple de code écrit en SNL.
+-   `build_it.sh` : Le script d'automatisation pour la configuration du projet.

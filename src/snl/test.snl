@@ -1,0 +1,34 @@
+create project "WebAppTest" with language snl {
+
+    // Déclaration d'une entité simple
+    create entity Product {
+        id: integer;
+        name: string;
+        price: float;
+    }
+
+    // Déclaration d'une classe qui utilise l'entité
+    class User {
+        public string username;
+        private string password;
+
+        public void setPassword(string newPass) {
+            // Logique ici
+            print("Password set.");
+        }
+    }
+
+    // Fonction principale du programme
+    create func main {
+        print("Initialisation du programme...");
+        var u : User = new User();
+        u.username = "test_user";
+
+        if (10 > 5) then {
+            print("La condition est vraie.");
+        }
+
+        // Erreur sémantique : Incompatibilité de type
+        var i : integer = "ceci n'est pas un entier";
+    }
+}

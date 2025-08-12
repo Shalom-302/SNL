@@ -66,4 +66,4 @@ Cette commande exécutera la classe `Compiler` principale en lui passant `test.s
     -   Les fichiers générés par ANTLR (`snlLexer.java`, `snlParser.java`, etc.) se trouvent également ici.
 -   `pom.xml` : Le fichier de configuration de Maven.
 -   `test.snl` : Un fichier d'exemple de code écrit en SNL.
--   `build_it.sh` : Le script d'automatisation pour la configuration du projet.
+-   `snl.sh` : Le script d'automatisation pour la configuration du projet.

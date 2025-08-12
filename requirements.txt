@@ -1,6 +1,0 @@
-google-generativeai
-google-genai 
-langchain-google-genai
-python-dotenv
-streamlit
-watchdog
